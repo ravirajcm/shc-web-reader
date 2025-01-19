@@ -1,9 +1,7 @@
 name: SHC Viewer
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -14,11 +12,15 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      # Set up Node.js
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 6.14.18
+      # Install Node.js 6.14.18 manually
+      - name: Install Node.js 6.x
+        run: |
+          curl -fsSL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+          sudo apt-get install -y nodejs
+
+      # Verify Node.js version
+      - name: Verify Node.js Version
+        run: node -v
 
       # Install dependencies
       - name: Install Dependencies
