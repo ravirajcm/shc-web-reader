@@ -1,4 +1,4 @@
-name: SHC Viewer
+name: Deploy React Native Web App
 
 on:
   workflow_dispatch:
@@ -16,11 +16,13 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18 # Use Node.js 18 or adjust as needed
 
-      # Install dependencies
-      - name: Install Dependencies
-        run: npm install
+      # Clean and reinstall dependencies
+      - name: Clean Dependencies
+        run: |
+          rm -rf node_modules package-lock.json
+          npm install
 
       # Build the web app
       - name: Build Web App
