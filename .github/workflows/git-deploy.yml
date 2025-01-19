@@ -12,15 +12,11 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      # Install Node.js 6.14.18 manually
-      - name: Install Node.js 6.x
-        run: |
-          curl -fsSL https://deb.nodesource.com/setup_6.x | sudo -E bash -
-          sudo apt-get install -y nodejs
-
-      # Verify Node.js version
-      - name: Verify Node.js Version
-        run: node -v
+      # Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
 
       # Install dependencies
       - name: Install Dependencies
