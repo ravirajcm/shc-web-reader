@@ -18,12 +18,19 @@ import config from './config.js';
 
 const systems = {
 
+  // NVC
+  "http://snomed.info/sct/20611000087101": {
+      "url": "nvc-bundle.json",
+      "type": "nvc",
+      "placeHolder": "NVC"
+  },
+
   // coverage-class
   "http://terminology.hl7.org/CodeSystem/coverage-class": {
 	"url": "https://build.fhir.org/ig/HL7/UTG/CodeSystem-coverage-class.json"
   },
 
-  // copay 
+  // copay
   "http://terminology.hl7.org/CodeSystem/coverage-copay-type": {
 	"url": "https://build.fhir.org/ig/HL7/UTG/CodeSystem-coverage-copay-type.json"
   },
@@ -70,7 +77,6 @@ const systems = {
 	"url": "https://raw.githubusercontent.com/hellodocket/vaccine-code-mappings/main/vaccine-code-mapping.json",
 	"placeHolder": "..."
   },
-  
   // CVX (Docket Snapshot)
   "http://hl7.org/fhir/sid/cvx": {
 	"type": "docket-cvx",
@@ -200,7 +206,6 @@ export async function getSystem(system) {
 
   if (systemLoaded(system)) return(_loadedSystems[system]);
   if (!systemLoadable(system)) return(undefined);
-
   try {
 	let loaded = getFromLocal(system);
 	if (!loaded) {
@@ -240,6 +245,9 @@ async function loadSystem(system) {
 
 	case "docket-cpt":
 	  return(parseDocketVaccineMappings(await response.json(), "cpt"));
+
+    case "nvc":
+      return (parseNVCVaccineMappings(await response.json(), "table"));
 
 	default:
 	  throw new Error(`Unknown system type ${type} for ${system}`);
@@ -302,6 +310,22 @@ function parseDocketVaccineMappings(json, tag) {
   });
 
   return(parsed);
+}
+
+function parseNVCVaccineMappings(json, tag) {
+    const values = json[tag];
+    const parsed = {};
+
+    if (!values || typeof values !== "object") {
+        return {}; // Return an empty object if `values` is invalid or undefined
+    }
+
+    Object.keys(values).forEach((key) => {
+        const item = values[key];
+        parsed[key.toString()] = item.displayName || "Unknown"; // Default to "Unknown" if displayName is not available
+    });
+
+    return (parsed);
 }
 
 // +--------------+

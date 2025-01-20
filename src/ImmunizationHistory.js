@@ -57,6 +57,9 @@ function renderImmunizationGroup(
     );
   };
   const renderImmunization = (immunization, key) => {
+//  console.log(JSON.stringify(immunization));
+//  console.log("immunization.vaccineCode: " + JSON.stringify(immunization.vaccineCode));
+//  console.log("dcr: " + JSON.stringify(dcr));
     return (
       <tr key={key}>
         <td>{immunization.occurrenceDateTime}</td>
