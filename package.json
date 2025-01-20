@@ -2,7 +2,7 @@
   "name": "shc-reader",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://ravirajcm.github.io",
+  "homepage": "https://ravirajcm.github.io/shc-web-reader",
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
